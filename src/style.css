@@ -1,7 +1,12 @@
 body{
     background-image: url("../img/clouds.jpg");
     --dblue: rgb(0,0,50);
-    --lightbd: rgba(220, 233, 255, 0.7);
+    --lightbd: rgba(220, 233, 255, 0.5);
+}
+
+.current{
+    background-color: var(--lightbd);
+    border-radius: 20px;
 }
 
 .searchDiv{
@@ -18,8 +23,77 @@ body{
     background-color: var(--lightbd);
 }
 
-.searchIcons
+.searchButton{
+    background-color: var(--lightbd);
+    border-radius: 20px;
+}
+
+.searchIcon{
+    border-radius: 20px;
+}
 
 .current{
-    background-color: var(--lightbd);
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.currentLocation{
+    text-align: center;
+    padding: 10px 10px;
+    width: 60%;
+    border-radius: 20px;
+}
+
+.currentIcon{
+    height: 200px;;
+}
+
+.currentData{
+    display: flex;
+    flex-direction: column;
+}
+
+.currentTempDiv{
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.currentTempDiv > p{
+    margin: 0px;
+    font-size: 50px;
+}
+
+.minmax{
+    display: flex;
+    gap: 150px;
+    font-size: 30px;
+}
+
+.minmax > p{
+    margin: 0px;
+}
+
+.currentSunriseImg, .currentSunsetImg{
+    height: 140px;
+}
+
+.currentSunDiv{
+    margin-top: 30px;
+    display: flex;
+    gap: 80px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.currentSunset > p, .currentSunrise > p{
+    margin: 0;
 }

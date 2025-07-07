@@ -70,6 +70,7 @@ async function main() {
 
     const searchIcon = document.createElement("img");
     searchIcon.src = "../img/search.svg";
+    searchIcon.classList.add("searchIcon");
     searchButton.appendChild(searchIcon);
     searchDiv.appendChild(searchButton);
 
@@ -89,6 +90,7 @@ async function main() {
 
     const currentIcon = document.createElement("img");
     currentIcon.src = `../img/${weather.current.icon}.svg`;
+    currentIcon.classList.add("currentIcon");
     current.appendChild(currentIcon);
 
     const currentData = document.createElement("div");
@@ -101,13 +103,18 @@ async function main() {
     currentTemp.textContent = `${weather.current.temp}°`;
     currentTempDiv.appendChild(currentTemp);
 
+    const minmax = document.createElement("div");
+    minmax.classList.add("minmax");
+
     const currentMin = document.createElement("p");
     currentMin.textContent = `${weather.days[0].tempMin}°`;
-    currentTempDiv.appendChild(currentMin);
+    minmax.appendChild(currentMin);
 
     const currentMax = document.createElement("p");
     currentMax.textContent = `${weather.days[0].tempMax}°`;
-    currentTempDiv.appendChild(currentMax);
+    minmax.appendChild(currentMax);
+
+    currentTempDiv.appendChild(minmax);
     currentData.appendChild(currentTempDiv);
 
     const currentSunDiv = document.createElement("div");
@@ -118,6 +125,7 @@ async function main() {
 
     const currentSunriseImg = document.createElement("img");
     currentSunriseImg.src = "../img/sunrise-svgrepo-com.svg";
+    currentSunriseImg.classList.add("currentSunriseImg")
     currentSunrise.appendChild(currentSunriseImg);
 
     const currentSunriseData = document.createElement("p");
@@ -130,6 +138,7 @@ async function main() {
 
     const currentSunsetImg = document.createElement("img");
     currentSunsetImg.src = "../img/sunset-svgrepo-com.svg";
+    currentSunsetImg.classList.add("currentSunsetImg")
     currentSunset.appendChild(currentSunsetImg);
 
     const currentSunsetData = document.createElement("p");
