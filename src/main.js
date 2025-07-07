@@ -13,7 +13,7 @@ function processData(data) {
   current["icon"] = data.currentConditions.icon;
   weather["current"] = current;
 
-  const days = {};
+  const days = [];
   let i = 0;
   data.days.forEach((element) => {
     days[`${i}`] = {
@@ -22,16 +22,16 @@ function processData(data) {
       tempMin: element.tempmin,
       temp: element.temp,
       description: element.description,
+      icon: element.icon,
     };
     i = i + 1;
   });
 
   weather["days"] = days;
-  console.log(data);
   return weather;
 }
 
-async function getData() {
+async function getData(loc) {
   const date = new Date();
   let day = date.getDate();
   let month = date.getMonth() + 1;
@@ -46,15 +46,15 @@ async function getData() {
   let day5later = `${year5}-${month5}-${day5}`;
 
   const data = await fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/kecskemet/${currentDate}/${day5later}?unitGroup=metric&lang=hu&key=59SPDL97E2WX9UKD9PYF9244W`,
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}/${currentDate}/${day5later}?unitGroup=metric&lang=hu&key=G7735MBBFA9BDA93WCW2SQWYE`,
     { mode: "cors" }
   );
   const jsonData = await data.json();
   return processData(jsonData);
 }
 
-async function main() {
-  await getData();
+async function main(loc) {
+  await getData(loc);
   const body = document.querySelector("body");
 
   function addSearch() {
@@ -78,8 +78,17 @@ async function main() {
   }
 
   addSearch();
+  const searchButton = document.querySelector(".searchButton")
+  const searchField = document.querySelector(".searchField")
+  searchButton.addEventListener("click", () => {
+    body.innerHTML = ""
+    main(searchField.value)
+  })
 
   function loadToDom() {
+    const mainScreen = document.createElement("div");
+    mainScreen.classList.add("mainScreen");
+
     const current = document.createElement("div");
     current.classList.add("current");
 
@@ -125,7 +134,7 @@ async function main() {
 
     const currentSunriseImg = document.createElement("img");
     currentSunriseImg.src = "../img/sunrise-svgrepo-com.svg";
-    currentSunriseImg.classList.add("currentSunriseImg")
+    currentSunriseImg.classList.add("currentSunriseImg");
     currentSunrise.appendChild(currentSunriseImg);
 
     const currentSunriseData = document.createElement("p");
@@ -138,21 +147,52 @@ async function main() {
 
     const currentSunsetImg = document.createElement("img");
     currentSunsetImg.src = "../img/sunset-svgrepo-com.svg";
-    currentSunsetImg.classList.add("currentSunsetImg")
+    currentSunsetImg.classList.add("currentSunsetImg");
     currentSunset.appendChild(currentSunsetImg);
 
     const currentSunsetData = document.createElement("p");
     currentSunsetData.textContent = `${weather.current.sunset}`;
     currentSunset.appendChild(currentSunsetData);
     currentSunDiv.appendChild(currentSunset);
-
     currentData.appendChild(currentSunDiv);
-
     current.appendChild(currentData);
+    mainScreen.appendChild(current);
 
-    body.appendChild(current);
+    const daysContainer = document.createElement("div");
+    daysContainer.classList.add("daysContainer");
+
+    weather.days.forEach((day) => {
+      const dayCard = document.createElement("div");
+      dayCard.classList.add("dayCard");
+
+      const dayDate = document.createElement("p")
+      dayDate.textContent = day.date
+      dayCard.appendChild(dayDate)
+
+      const dayIcon = document.createElement("img");
+      dayIcon.classList.add("dayIcon");
+      dayIcon.src = `../img/${day.icon}.svg`;
+      dayCard.appendChild(dayIcon);
+
+      const dayData = document.createElement("div");
+      dayData.classList.add("dayData");
+
+      const dayMin = document.createElement("p");
+      dayMin.textContent = day.tempMin;
+      dayData.appendChild(dayMin);
+
+      const dayMax = document.createElement("p");
+      dayMax.textContent = day.tempMax;
+      dayData.appendChild(dayMax);
+
+      dayCard.appendChild(dayData)
+
+      daysContainer.appendChild(dayCard);
+    });
+
+    mainScreen.appendChild(daysContainer);
+    body.appendChild(mainScreen);
   }
   loadToDom();
-  console.log(weather);
 }
-main();
+main("kecskemet");
